@@ -2,7 +2,8 @@
 name: log-decision
 description: >-
   Record a technical or project decision with context, alternatives, and
-  rationale in ~/code/thoughts/decisions.md. Use when the user says
+  rationale in <thoughts-dir>/decisions.md (default ~/code/thoughts/, see
+  journal-config.local.mdc). Use when the user says
   "log decision", "decision:", "we decided", "record this decision",
   "decided to", "let's go with", "made the call", "going with option",
   or asks to document a choice that was made.
@@ -28,11 +29,11 @@ If any of these are unclear, ask the user briefly. Do not require all fields —
 
 ### 2. Generate a decision ID
 
-Use the format `DEC-YYYY-MM-DD-N` where N is a sequential number. Read `~/code/thoughts/decisions.md` to find the highest existing N for today's date, then increment. If none exist for today, use 1.
+Use the format `DEC-YYYY-MM-DD-N` where N is a sequential number. Read `<thoughts-dir>/decisions.md` to find the highest existing N for today's date, then increment. If none exist for today, use 1.
 
 ### 3. Append to decisions.md
 
-Append to `~/code/thoughts/decisions.md`:
+Append to `<thoughts-dir>/decisions.md`:
 
 ```markdown
 
@@ -46,7 +47,7 @@ Append to `~/code/thoughts/decisions.md`:
 
 ### 4. Cross-reference with daily file
 
-If today's `daily/YYYY-MM-DD.md` exists and has session entries, no separate annotation is needed — the session-summarize skill will pick up the decision at wrap-up.
+If today's `<thoughts-dir>/daily/YYYY-MM-DD.md` exists and has session entries, no separate annotation is needed — the session-summarize skill will pick up the decision at wrap-up.
 
 ### 5. Confirm and commit
 

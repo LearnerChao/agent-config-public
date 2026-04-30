@@ -2,7 +2,8 @@
 name: session-summarize
 description: >-
   Summarize the current agent session and append it to the daily journal in
-  ~/code/thoughts/. Use when the user says "summarize session", "wrap up",
+  <thoughts-dir>/ (default ~/code/thoughts/, see journal-config.local.mdc).
+  Use when the user says "summarize session", "wrap up",
   "end of day", "log this session", or asks to record what was accomplished.
 ---
 
@@ -31,7 +32,7 @@ Be intelligent about classification. A decision is a deliberate choice between a
 > **Scope reminder**: The daily file may contain prior session entries. Those are context for numbering and dedup only — do not merge their content into the current session's summary.
 
 - Determine today's date in `YYYY-MM-DD` format.
-- Check if `~/code/thoughts/daily/YYYY-MM-DD.md` exists.
+- Check if `<thoughts-dir>/daily/YYYY-MM-DD.md` exists (placeholder resolved by `journal-config.local.mdc`; default `~/code/thoughts/`).
 - If it does not exist, create it from the template:
 
 ```markdown
@@ -68,11 +69,11 @@ If multiple projects were worked on, list them comma-separated in the Project fi
 
 ### 5. Cross-post to persistent files
 
-- If **ideas** were extracted, append each to `~/code/thoughts/ideas.md`:
+- If **ideas** were extracted, append each to `<thoughts-dir>/ideas.md`:
   ```
   - **YYYY-MM-DD** [project-name]: The idea text
   ```
-- If **decisions** were made, append each to `~/code/thoughts/decisions.md`:
+- If **decisions** were made, append each to `<thoughts-dir>/decisions.md`:
   ```
   ### DEC-YYYY-MM-DD-N — Short title
   **Date**: YYYY-MM-DD | **Project**: project-name
@@ -80,19 +81,19 @@ If multiple projects were worked on, list them comma-separated in the Project fi
   **Alternatives**: What else was considered
   **Rationale**: Why this choice was made
   ```
-- If **TILs** were captured, append each to `~/code/thoughts/til.md`:
+- If **TILs** were captured, append each to `<thoughts-dir>/til.md`:
   ```
   - **YYYY-MM-DD**: What was learned
   ```
   Do NOT also write TILs to the daily file — `til.md` is the single canonical home to avoid duplication. (Optional scratch goes under `## Notes` in the daily template if needed.)
-- If **open questions** were raised, append each to `~/code/thoughts/open-questions.md`:
+- If **open questions** were raised, append each to `<thoughts-dir>/open-questions.md`:
   ```
   - **YYYY-MM-DD** [project-name]: The question
   ```
 
 ### 6. Resolve answered questions
 
-Read `~/code/thoughts/open-questions.md` and check whether this session's work resolves any existing open questions. A question is resolved if the session directly answers it, implements a fix for it, or renders it moot.
+Read `<thoughts-dir>/open-questions.md` and check whether this session's work resolves any existing open questions. A question is resolved if the session directly answers it, implements a fix for it, or renders it moot.
 
 For each resolved question, update its entry in `open-questions.md` from:
 ```
@@ -110,7 +111,7 @@ Mention resolved questions in the user-facing summary so they can confirm.
 Scan today's daily file for unchecked `- [ ]` items from **previous sessions** (not the one just written). For each item open across 2+ sessions or 2+ days:
 
 - Present them to the user in a batch and ask for each: **resolve** (check it off), **escalate** (move to `open-questions.md`), or **carry** (leave as-is for next session).
-- For escalated items, append to `~/code/thoughts/open-questions.md`:
+- For escalated items, append to `<thoughts-dir>/open-questions.md`:
   ```
   - **YYYY-MM-DD** [project]: Item text
   ```
@@ -120,7 +121,7 @@ If no stale items exist, skip silently.
 
 ### 8. Auto-create project file
 
-Check whether a `projects/{project-name}.md` file exists for each project worked on in this session. If not, scan today's daily file and the last 5 daily files for sessions mentioning this project. If the project appears in 3 or more sessions across any daily files and has no project file, create a stub at `~/code/thoughts/projects/{project-name}.md`:
+Check whether a `<thoughts-dir>/projects/{project-name}.md` file exists for each project worked on in this session. If not, scan today's daily file and the last 5 daily files for sessions mentioning this project. If the project appears in 3 or more sessions across any daily files and has no project file, create a stub at `<thoughts-dir>/projects/{project-name}.md`:
 
 ```markdown
 # {Project Name}
@@ -148,7 +149,7 @@ Tell the user the project file was created so they can review and edit it.
 
 ### 9. Git commit
 
-Stage and commit all changed files in `~/code/thoughts/` with a message like:
+Stage and commit all changed files in `<thoughts-dir>/` with a message like:
 
 ```
 session: project-name — short summary of what was done

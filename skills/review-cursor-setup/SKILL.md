@@ -29,7 +29,7 @@ For each: name, description, line count, supporting files.
 - Corrupt or placeholder content
 - Redundancy with skills
 
-**Journal analysis** — Read all files in `~/code/thoughts/`:
+**Journal analysis** — Read all files in `<thoughts-dir>/` (placeholder resolved by `journal-config.local.mdc`; default `~/code/thoughts/`):
 - All daily files, `ideas.md`, `open-questions.md`, `decisions.md`, `til.md`, `parking-lot.md`
 - `projects/` and `weekly/` directories
 - Identify: most-used sections, empty/unused sections, duplication patterns

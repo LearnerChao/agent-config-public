@@ -14,7 +14,7 @@ Generate a prioritized, forward-looking brief by reviewing recent daily journal 
 
 ### 1. Gather recent context
 
-Read the following files from `~/code/thoughts/`:
+Read the following files from `<thoughts-dir>/` (placeholder resolved by `journal-config.local.mdc`; default `~/code/thoughts/`):
 
 - The **last 5 daily files** in `daily/` (sorted by filename descending). Use `ls` or glob to find them.
 - `open-questions.md`
@@ -101,10 +101,10 @@ It's Friday — consider running `/weekly-retrospective` to review this week bef
 
 ### 8. Write today's plan
 
-- Create today's `daily/YYYY-MM-DD.md` from the template if it does not exist.
+- Create today's `<thoughts-dir>/daily/YYYY-MM-DD.md` from the template if it does not exist.
 - Write the carryover tasks into the `## Plan` section.
 - Do not overwrite existing plan content if the file already exists and has plan items.
 
 ### 9. Git commit
 
-Commit changes to `~/code/thoughts/` with message: `brief: YYYY-MM-DD morning plan`
+Commit changes to `<thoughts-dir>/` with message: `brief: YYYY-MM-DD morning plan`

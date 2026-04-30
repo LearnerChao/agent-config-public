@@ -1,7 +1,8 @@
 ---
 name: search-thoughts
 description: >-
-  Search across all journal files in ~/code/thoughts/ for a keyword, concept,
+  Search across all journal files in <thoughts-dir>/ (default
+  ~/code/thoughts/, see journal-config.local.mdc) for a keyword, concept,
   or topic and return a consolidated view. Use when the user says "search thoughts",
   "find in journal", "when did I work on", "have I noted anything about",
   "what did I write about", "have I seen this before", "grep journal",
@@ -20,7 +21,7 @@ Extract the keyword, phrase, or concept from the user's message. If the query is
 
 ### 2. Search all journal files
 
-Use grep/ripgrep to search across all files in `~/code/thoughts/`:
+Use grep/ripgrep to search across all files in `<thoughts-dir>/` (placeholder resolved by `journal-config.local.mdc`; default `~/code/thoughts/`). Substitute `<thoughts-dir>` with the configured absolute path when running the command — for example, with the default path:
 
 ```bash
 rg -i --heading --line-number "SEARCH_TERM" ~/code/thoughts/

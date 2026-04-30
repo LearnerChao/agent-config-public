@@ -15,7 +15,7 @@ Generate a concise standup from the daily journal, ready to paste into Slack or 
 
 ### 1. Gather inputs
 
-- Read yesterday's daily file: `~/code/thoughts/daily/YYYY-MM-DD.md` (use the most recent file before today if yesterday has no file, e.g., Friday's file on a Monday).
+- Read yesterday's daily file: `<thoughts-dir>/daily/YYYY-MM-DD.md` (placeholder resolved by `journal-config.local.mdc`; default `~/code/thoughts/`). Use the most recent file before today if yesterday has no file (e.g., Friday's file on a Monday).
 - Read today's daily file if it exists (for the Plan section).
 
 ### 2. Build the standup

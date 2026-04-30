@@ -13,7 +13,17 @@ chmod +x install.sh
 ./install.sh
 ```
 
-The install script creates symlinks from Cursor's expected locations into this repo.
+The install script creates symlinks from Cursor's expected locations into this repo and bootstraps a per-user journal config at `rules/journal-config.local.mdc` (gitignored).
+
+To use a journal directory other than `~/code/thoughts/` from the start:
+
+```bash
+./install.sh --thoughts-dir=/path/to/your/journal
+# or
+THOUGHTS_DIR=/path/to/your/journal ./install.sh
+```
+
+You can change the path later by editing `~/.cursor/rules/journal-config.local.mdc`. See [Customization](#customization) for details.
 
 ## What's Included
 
@@ -60,8 +70,10 @@ Global Cursor rules (`.mdc` files) that provide persistent context.
 
 | Rule | Description |
 |---|---|
-| `thoughts-aware` | Makes the agent aware of a `~/code/thoughts/` journal system |
+| `thoughts-aware` | Makes the agent aware of the user's thoughts journal (path configurable; see [Customization](#customization)) |
 | `web-scraping` | Decision tree and CLI reference for web scraping tasks |
+
+The thoughts journal path is configured by `journal-config.local.mdc`, which is generated from `journal-config.example.mdc` by the install script and gitignored so each user can customize it independently.
 
 ### MCP Template
 
@@ -77,10 +89,10 @@ After running `install.sh`:
 
 ## Journal System
 
-Several skills reference a journal at `~/code/thoughts/`. The expected structure:
+Several skills reference a journal whose path is set by `journal-config.local.mdc` (default `~/code/thoughts/`). Skills and rules in this repo refer to the journal as `<thoughts-dir>/`; the agent expands that placeholder using the configured path. The expected directory structure:
 
 ```
-thoughts/
+<thoughts-dir>/
   daily/YYYY-MM-DD.md    # daily session logs
   ideas.md               # idea backlog
   open-questions.md      # unresolved questions
@@ -95,9 +107,10 @@ Create this directory structure to use journal-related skills, or adapt the skil
 
 ## Customization
 
+- **Thoughts journal path**: edit the path in `~/.cursor/rules/journal-config.local.mdc` (created by `install.sh` from `journal-config.example.mdc`). To set the path during initial install, pass `--thoughts-dir=/your/path` or set `THOUGHTS_DIR=/your/path`. The local config is gitignored, so personal paths never end up in the repo. If `journal-config.local.mdc` is absent (e.g., you skipped `install.sh`), each skill still names `~/code/thoughts/` as the inline default, so journal-related skills keep working — just without per-user configurability until you create the local config.
 - **Add your own skills**: Create `skills/<name>/SKILL.md` and they'll be picked up by Cursor.
 - **MCP servers**: Copy `mcp-template.json` to `~/.cursor/mcp.json` and fill in your endpoints.
-- **Rules**: Add `.mdc` files to `rules/` for persistent agent context.
+- **Rules**: Add `.mdc` files to `rules/` for persistent agent context. Files matching `rules/*.local.mdc` are gitignored — useful for any per-user config you want kept out of the repo.
 
 ## License
 

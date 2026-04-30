@@ -21,7 +21,7 @@ Determine the target project from the user's message. If ambiguous, list project
 
 ### 2. Search the journal
 
-Search these files in `~/code/thoughts/` for mentions of the project name:
+Search these files in `<thoughts-dir>/` (placeholder resolved by `journal-config.local.mdc`; default `~/code/thoughts/`) for mentions of the project name:
 
 - `daily/*.md` — focus on the **last 10 daily files** to keep scope manageable
 - `projects/{project-name}.md` — if it exists, read it in full

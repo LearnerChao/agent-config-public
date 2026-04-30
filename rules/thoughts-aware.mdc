@@ -5,15 +5,15 @@ alwaysApply: true
 
 # Thoughts Journal System
 
-The user maintains a daily journal at `~/code/thoughts/`. It contains:
+The user maintains a daily journal at `<thoughts-dir>/` (the placeholder is resolved by `journal-config.local.mdc`; if that file is absent, treat `<thoughts-dir>` as `~/code/thoughts/`). It contains:
 
-- `daily/YYYY-MM-DD.md` — daily session logs, plans, and notes
-- `ideas.md` — persistent idea backlog
-- `open-questions.md` — unresolved questions
-- `decisions.md` — decision log with rationale
-- `til.md` — things learned (canonical for TILs; session-summarize appends here)
-- `parking-lot.md` — deferred / out-of-scope items to revisit later
-- `weekly/` — weekly retrospective rollups (`YYYY-WNN.md`)
-- `projects/` — per-project running notes
+- `<thoughts-dir>/daily/YYYY-MM-DD.md` — daily session logs, plans, and notes
+- `<thoughts-dir>/ideas.md` — persistent idea backlog
+- `<thoughts-dir>/open-questions.md` — unresolved questions
+- `<thoughts-dir>/decisions.md` — decision log with rationale
+- `<thoughts-dir>/til.md` — things learned (canonical for TILs; session-summarize appends here)
+- `<thoughts-dir>/parking-lot.md` — deferred / out-of-scope items to revisit later
+- `<thoughts-dir>/weekly/` — weekly retrospective rollups (`YYYY-WNN.md`)
+- `<thoughts-dir>/projects/` — per-project running notes
 
 At the end of a session the user may ask to summarize and log the session. The `session-summarize` skill handles this. Do not proactively invoke it — wait for the user to ask.

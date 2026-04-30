@@ -1,0 +1,32 @@
+---
+description: Configures the user's thoughts journal directory location
+alwaysApply: true
+---
+
+# Thoughts Journal Configuration
+
+This rule configures the location of the user's thoughts journal directory and is read by every skill or rule that interacts with the journal.
+
+## Path
+
+The user's thoughts journal lives at:
+
+`~/code/thoughts/`
+
+## Placeholder Convention
+
+Skills and rules in this repo use `<thoughts-dir>` as a placeholder for the path above. Expand `<thoughts-dir>` to the absolute path declared in this file. For example:
+
+- `<thoughts-dir>/daily/YYYY-MM-DD.md` → `~/code/thoughts/daily/YYYY-MM-DD.md`
+- `<thoughts-dir>/ideas.md` → `~/code/thoughts/ideas.md`
+
+If a skill or rule is ambiguous about which directory it means, treat the journal directory as the path declared above.
+
+## Customization
+
+To use a different location for your journal:
+
+1. **At install time**: pass `--thoughts-dir=/your/path` to `install.sh`, or set `THOUGHTS_DIR=/your/path` before running it. The installer will write your path into `rules/journal-config.local.mdc`.
+2. **After install**: edit `~/.cursor/rules/journal-config.local.mdc` (which is symlinked into this repo at `rules/journal-config.local.mdc`) and change the path under the **Path** heading. Restart any active Cursor sessions to pick up the change.
+
+`rules/journal-config.local.mdc` is gitignored, so your personal path never ends up in the repo.

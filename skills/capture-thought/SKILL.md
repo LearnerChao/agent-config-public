@@ -2,7 +2,8 @@
 name: capture-thought
 description: >-
   Quickly capture a thought, idea, question, bookmark, or TIL into the
-  appropriate journal file in ~/code/thoughts/. Also handles idea lifecycle
+  appropriate journal file in <thoughts-dir>/ (default ~/code/thoughts/, see
+  journal-config.local.mdc). Also handles idea lifecycle
   updates (explored, implemented, dropped). Use when the user says
   "thought:", "idea:", "question:", "capture this", "note to self",
   "remember this", "TIL", "bookmark", "jot this down", "log this",
@@ -11,7 +12,7 @@ description: >-
 
 # Capture Thought
 
-Quickly classify and persist a thought into the appropriate file in `~/code/thoughts/`.
+Quickly classify and persist a thought into the appropriate file in `<thoughts-dir>/` (placeholder resolved by `journal-config.local.mdc`).
 
 ## Workflow
 
@@ -69,4 +70,4 @@ Ideas with status annotations are filtered out of morning-brief resurfacing.
 ### 5. Confirm and commit
 
 - Tell the user what was captured and where it was filed (one sentence).
-- Git commit the change in `~/code/thoughts/` with message: `capture: short description`
+- Git commit the change in `<thoughts-dir>/` with message: `capture: short description`

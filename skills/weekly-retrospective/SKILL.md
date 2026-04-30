@@ -23,7 +23,7 @@ Compute the date range: Monday YYYY-MM-DD through Sunday YYYY-MM-DD.
 
 ### 2. Read daily files
 
-Read all daily files from `~/code/thoughts/daily/` whose dates fall within the target week. If no files exist for the week, tell the user and stop.
+Read all daily files from `<thoughts-dir>/daily/` (placeholder resolved by `journal-config.local.mdc`; default `~/code/thoughts/`) whose dates fall within the target week. If no files exist for the week, tell the user and stop.
 
 ### 3. Extract and synthesize
 
@@ -38,13 +38,13 @@ From all session entries across the week, extract:
 - Were there recurring blockers or context switches?
 - Any themes in the types of work done (debugging, building, reviewing, planning)?
 
-**Ideas generated**: Collect all ideas from session entries and from `ideas.md` entries dated within the week.
+**Ideas generated**: Collect all ideas from session entries and from `<thoughts-dir>/ideas.md` entries dated within the week.
 
-**Decisions made**: Collect all decisions from session entries and from `decisions.md` entries dated within the week.
+**Decisions made**: Collect all decisions from session entries and from `<thoughts-dir>/decisions.md` entries dated within the week.
 
 ### 4. Write the retrospective
 
-Create `~/code/thoughts/weekly/YYYY-WNN.md` with:
+Create `<thoughts-dir>/weekly/YYYY-WNN.md` with:
 
 ```markdown
 # Week WNN — YYYY (Mon YYYY-MM-DD to Sun YYYY-MM-DD)

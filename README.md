@@ -1,35 +1,42 @@
-# Cursor Config
+# Agent Config
 
-Agent skills, subagent definitions, and rules for the [Cursor](https://cursor.com) IDE.
+Agent skills, subagent definitions, and rules for AI coding IDEs that follow the [Agent Skills](https://agentskills.io/) open standard. Currently supports **Cursor**, **Claude Code**, **Codex CLI**, and **Gemini CLI** (best-effort).
 
-This is the public subset of a larger private configuration. Skills and agents are designed to be generic and reusable.
+This is the public subset of a larger private configuration. Skills and agents are designed to be generic and reusable across IDEs.
 
 ## Quick Start
 
 ```bash
-git clone https://github.com/joshuacherry/cursor-config-public.git ~/code/cursor-config-public
-cd ~/code/cursor-config-public
+git clone https://github.com/LearnerChao/agent-config-public.git ~/code/agent-config-public
+cd ~/code/agent-config-public
 chmod +x install.sh
 ./install.sh
 ```
 
-The install script creates symlinks from Cursor's expected locations into this repo and bootstraps a per-user journal config at `rules/journal-config.local.mdc` (gitignored).
-
-To use a journal directory other than `~/code/thoughts/` from the start:
+The install script presents an interactive list of supported IDEs (with installed ones pre-selected) and creates symlinks into the IDEs you choose. To skip the prompt:
 
 ```bash
-./install.sh --thoughts-dir=/path/to/your/journal
-# or
-THOUGHTS_DIR=/path/to/your/journal ./install.sh
+./install.sh --ide=cursor                   # one IDE
+./install.sh --ide=cursor,claude            # multiple
+./install.sh --ide=auto                     # only IDEs detected on this machine
+./install.sh --ide=all                      # every supported IDE
 ```
 
-You can change the path later by editing `~/.cursor/rules/journal-config.local.mdc`. See [Customization](#customization) for details.
+To set your thoughts journal path during install (default `~/code/thoughts/`):
+
+```bash
+./install.sh --ide=auto --thoughts-dir=/path/to/your/journal
+# or
+THOUGHTS_DIR=/path/to/your/journal ./install.sh --ide=auto
+```
+
+You can change the path later by editing `rules/journal-config.local.mdc` (which is symlinked into your IDE's rules directory). See [Customization](#customization) for details.
 
 ## What's Included
 
 ### Skills
 
-Skills are agent capabilities invoked by natural language triggers.
+Skills are agent capabilities invoked by natural language triggers. Each skill is a `SKILL.md` with frontmatter; the format follows the [Agent Skills open standard](https://agentskills.io/) and works across Cursor, Claude Code, Codex CLI, and Gemini CLI.
 
 | Skill | Description |
 |---|---|
@@ -40,18 +47,18 @@ Skills are agent capabilities invoked by natural language triggers.
 | `log-decision` | Record technical decisions with context and rationale |
 | `morning-brief` | Daily brief from recent journal entries |
 | `project-context-restore` | Restore context for a project after time away |
-| `review-cursor-setup` | Audit Cursor setup (skills, rules, agents, MCP) |
+| `review-agent-setup` | Audit your agent setup (skills, rules, agents, MCP) across installed IDEs |
 | `search-thoughts` | Search across journal files for a keyword or topic |
 | `session-summarize` | Summarize the current session and append to daily journal |
 | `spec-refiner` | Iteratively refine ideas into actionable specifications |
 | `standup-report` | Generate a standup report from journal entries |
 | `swarm-orchestrator` | Orchestrate parallel subagents for complex tasks |
-| `sync-config` | Commit and push config repo changes |
+| `sync-config` | Commit and push agent-config repo changes |
 | `weekly-retrospective` | Weekly retrospective from daily journal entries |
 
 ### Agents
 
-Custom subagent definitions used by skills like `spec-refiner` and `swarm-orchestrator`.
+Custom subagent definitions used by skills like `spec-refiner` and `swarm-orchestrator`. Cursor and Claude Code load these from their respective `agents/` directories. Codex CLI and Gemini CLI don't have a separate subagent concept yet, so the install script skips the agents symlink for those IDEs.
 
 | Agent | Role |
 |---|---|
@@ -66,7 +73,7 @@ Custom subagent definitions used by skills like `spec-refiner` and `swarm-orches
 
 ### Rules
 
-Global Cursor rules (`.mdc` files) that provide persistent context.
+Persistent agent context as `.mdc` files. The frontmatter is Cursor-flavored (`alwaysApply`, `globs`); Claude Code reads `.mdc` files and ignores unknown frontmatter, so the same files work in both. Codex CLI and Gemini CLI don't have a rules directory; instead, the install script generates a managed section in their single rules file (`~/.codex/AGENTS.md`, `~/.gemini/GEMINI.md`) containing all `alwaysApply: true` rules.
 
 | Rule | Description |
 |---|---|
@@ -77,15 +84,18 @@ The thoughts journal path is configured by `journal-config.local.mdc`, which is 
 
 ### MCP Template
 
-`mcp-template.json` provides a starting point for MCP server configuration. Replace the placeholder URLs with your own endpoints.
+`mcp-template.json` provides a starting point for MCP server configuration. Each IDE looks for MCP config at a different path; the install script prints the right one for your selected IDE(s) in its post-install summary.
 
-## Symlink Map
+## Per-IDE Install Map
 
-After running `install.sh`:
+| Item | Cursor | Claude Code | Codex CLI | Gemini CLI |
+|---|---|---|---|---|
+| Skills | symlink `~/.cursor/skills` | symlink `~/.claude/skills` | symlink `~/.codex/skills` | symlink `~/.gemini/skills` |
+| Agents | symlink `~/.cursor/agents` | symlink `~/.claude/agents` | (n/a) | (n/a) |
+| Rules dir | symlink `~/.cursor/rules` | symlink `~/.claude/rules` | (n/a) | (n/a) |
+| Always-applied rules | (loaded from rules dir) | also embedded in `~/.claude/CLAUDE.md` | embedded in `~/.codex/AGENTS.md` | embedded in `~/.gemini/GEMINI.md` |
 
-- `~/.cursor/skills` -> `skills/`
-- `~/.cursor/agents` -> `agents/`
-- `~/.cursor/rules` -> `rules/`
+For IDEs that use a single rules file, the install script writes a managed section bracketed by `<!-- BEGIN agent-config-public -->` / `<!-- END agent-config-public -->`. Existing user content in those files is preserved; re-running the installer updates only the marked section.
 
 ## Journal System
 
@@ -107,10 +117,11 @@ Create this directory structure to use journal-related skills, or adapt the skil
 
 ## Customization
 
-- **Thoughts journal path**: edit the path in `~/.cursor/rules/journal-config.local.mdc` (created by `install.sh` from `journal-config.example.mdc`). To set the path during initial install, pass `--thoughts-dir=/your/path` or set `THOUGHTS_DIR=/your/path`. The local config is gitignored, so personal paths never end up in the repo. If `journal-config.local.mdc` is absent (e.g., you skipped `install.sh`), each skill still names `~/code/thoughts/` as the inline default, so journal-related skills keep working — just without per-user configurability until you create the local config.
-- **Add your own skills**: Create `skills/<name>/SKILL.md` and they'll be picked up by Cursor.
-- **MCP servers**: Copy `mcp-template.json` to `~/.cursor/mcp.json` and fill in your endpoints.
-- **Rules**: Add `.mdc` files to `rules/` for persistent agent context. Files matching `rules/*.local.mdc` are gitignored — useful for any per-user config you want kept out of the repo.
+- **Choose target IDE(s)**: pass `--ide=cursor,claude,codex,gemini` (or any subset) to `install.sh`. Use `--ide=auto` to install for whichever IDEs are already on your machine, or `--ide=all` to install everywhere. Without the flag, the script prompts interactively.
+- **Thoughts journal path**: edit the path in `rules/journal-config.local.mdc` (created by `install.sh` from `journal-config.example.mdc`, then symlinked into each IDE's rules directory). To set the path during initial install, pass `--thoughts-dir=/your/path` or set `THOUGHTS_DIR=/your/path`. The local config is gitignored, so personal paths never end up in the repo. If `journal-config.local.mdc` is absent (e.g., you skipped `install.sh`), each skill still names `~/code/thoughts/` as the inline default, so journal-related skills keep working — just without per-user configurability until you create the local config.
+- **Add your own skills**: Create `skills/<name>/SKILL.md` and they'll be picked up by every IDE you've installed for (the directory is symlinked, not copied).
+- **MCP servers**: Copy `mcp-template.json` to your IDE's MCP config path (`~/.cursor/mcp.json`, `~/.claude/.mcp.json`, `~/.codex/config.toml`, or `~/.gemini/settings.json`) and fill in your endpoints.
+- **Rules**: Add `.mdc` files to `rules/` for persistent agent context. Files matching `rules/*.local.mdc` are gitignored — useful for any per-user config you want kept out of the repo. After adding a new always-applied rule, re-run `install.sh` to refresh the managed section in `CLAUDE.md`/`AGENTS.md`/`GEMINI.md`.
 
 ## License
 

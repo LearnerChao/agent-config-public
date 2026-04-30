@@ -1,21 +1,21 @@
 ---
 name: sync-config
 description: >-
-  Commit and push changes to the cursor-config repo (skills, agents, rules,
+  Commit and push changes to the agent-config repo (skills, agents, rules,
   MCP config, editor settings, thoughts, specs) and sync the public repo. Use when
   the user says "sync config", "push config", "save config", "commit skills",
-  "commit agents", or asks to push Cursor configuration changes to GitHub.
+  "commit agents", or asks to push agent configuration changes to GitHub.
 ---
 
-# Sync Cursor Config
+# Sync Agent Config
 
-Stage, commit, and push all pending changes in `~/code/cursor-config/`, then sync the public repo.
+Stage, commit, and push all pending changes in the user's private agent-config repo (default location `~/code/agent-config/`; some users may still have it at `~/code/cursor-config/`), then sync the public repo. Adjust the paths below to match your actual layout.
 
 ## Phase 1: Push Private Repo
 
-1. Run `git -C ~/code/cursor-config status --short` to see what changed.
+1. Run `git -C ~/code/agent-config status --short` to see what changed.
 2. If there are no changes, tell the user everything is already up to date and skip to Phase 2 (the public repo may still need syncing).
-3. Run `git -C ~/code/cursor-config diff` to review the actual changes.
+3. Run `git -C ~/code/agent-config diff` to review the actual changes.
 4. Group changes by category for the commit message:
    - `skills/` — skill additions or edits
    - `agents/` — agent additions or edits
@@ -27,7 +27,7 @@ Stage, commit, and push all pending changes in `~/code/cursor-config/`, then syn
    - `extensions.txt` — extension list changes
    - `public/` — public repo overlay files
    - Root files — install.sh, README.md, .gitignore, sync-public.sh
-5. Stage all changes: `git -C ~/code/cursor-config add -A`
+5. Stage all changes: `git -C ~/code/agent-config add -A`
 6. Commit with a message summarizing what changed, using this format:
 
    ```
@@ -46,20 +46,20 @@ Stage, commit, and push all pending changes in `~/code/cursor-config/`, then syn
    mcp: add sourcegraph server
    ```
 
-7. Push to origin: `git -C ~/code/cursor-config push`
+7. Push to origin: `git -C ~/code/agent-config push`
 8. Confirm to the user what was committed and pushed.
 
 ## Phase 2: Sync Public Repo
 
-9. Run `~/code/cursor-config/sync-public.sh` to rsync skills, agents, and rules into `~/code/cursor-config-public/`.
-10. Run `git -C ~/code/cursor-config-public status --short` to check if the sync produced any changes.
+9. Run `~/code/agent-config/sync-public.sh` to rsync skills, agents, and rules into `~/code/agent-config-public/`.
+10. Run `git -C ~/code/agent-config-public status --short` to check if the sync produced any changes.
 11. If there are no changes in the public repo, tell the user the public repo is already up to date and stop.
-12. Stage all changes: `git -C ~/code/cursor-config-public add -A`
+12. Stage all changes: `git -C ~/code/agent-config-public add -A`
 13. Commit with a message mirroring the private commit summary, prefixed with `sync:`:
 
     ```
     sync: <same brief summary as the private commit>
     ```
 
-14. Push to origin: `git -C ~/code/cursor-config-public push`
+14. Push to origin: `git -C ~/code/agent-config-public push`
 15. Confirm to the user what was synced and pushed to the public repo.

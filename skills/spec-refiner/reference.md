@@ -9,7 +9,7 @@ Classify the user's idea into one of these types based on signals in their descr
 | **software** | "build", "system", "service", "API", "database", "deploy", "architecture", "backend", "frontend", "microservice", "pipeline" | REST API, data pipeline, CLI tool, web app, infrastructure |
 | **product** | "feature", "user", "launch", "experience", "workflow", "onboarding", "conversion", "engagement", "customer" | New product feature, redesign, mobile app, user-facing workflow |
 | **scientific** | "hypothesis", "experiment", "measure", "analyze", "effect", "correlation", "sample", "statistical", "A/B test", "causal" | A/B test design, causal analysis, metric investigation, research study |
-| **agentic** | "agent", "skill", "prompt", "subagent", "tool", "autonomous", "orchestrator", "LLM", "AI system" | Cursor skill, agent workflow, LLM-powered tool, multi-agent system |
+| **agentic** | "agent", "skill", "prompt", "subagent", "tool", "autonomous", "orchestrator", "LLM", "AI system" | agent skill, agent workflow, LLM-powered tool, multi-agent system |
 | **general** | None of the above, or a mix that doesn't fit a specific type | Process design, policy, governance framework, training curriculum |
 
 **Hybrid specs**: When the idea spans multiple types (e.g., "build a product feature that requires an A/B test to validate"), use the primary type for the template skeleton and merge in dimensions from secondary types. Note the hybrid nature in the spec metadata.

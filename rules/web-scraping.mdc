@@ -143,7 +143,7 @@ uv run ~/tools/webscrape/scrape.py tables /tmp/page.html
 - **NEVER** attempt to extract cookies, tokens, or credentials from the user's browser, keychain, or credential stores.
 - **NEVER** automate login form submission with credentials — always let the user authenticate manually.
 - If you need a token or API key, ask the user to provide it explicitly. Do not go looking for it.
-- If authentication is failing, suggest the user check their login in a browser and try again, or ask in **#cursor** on Slack for help.
+- If authentication is failing, suggest the user check their login in a browser and try again.
 
 ## Best Practices
 

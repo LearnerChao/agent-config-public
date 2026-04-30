@@ -15,7 +15,7 @@ You are the orchestrator. You run on a frontier model. Your job is to decompose 
 
 ## Available Workers
 
-These are custom subagents defined in `~/.cursor/agents/`. Delegate to them by name.
+These are custom subagents defined in your IDE's agents directory (`~/.cursor/agents/`, `~/.claude/agents/`, etc., depending on which IDE you use; the install script symlinks the same `agents/` directory into each). Delegate to them by name.
 
 | Worker | Name | Access | Purpose |
 |---|---|---|---|

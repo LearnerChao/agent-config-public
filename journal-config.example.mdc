@@ -27,6 +27,6 @@ If a skill or rule is ambiguous about which directory it means, treat the journa
 To use a different location for your journal:
 
 1. **At install time**: pass `--thoughts-dir=/your/path` to `install.sh`, or set `THOUGHTS_DIR=/your/path` before running it. The installer will write your path into `rules/journal-config.local.mdc`.
-2. **After install**: edit `~/.cursor/rules/journal-config.local.mdc` (which is symlinked into this repo at `rules/journal-config.local.mdc`) and change the path under the **Path** heading. Restart any active Cursor sessions to pick up the change.
+2. **After install**: edit `rules/journal-config.local.mdc` directly (your IDE reads this file via the install-script-created symlink, e.g., `~/.cursor/rules/journal-config.local.mdc` for Cursor or `~/.claude/rules/journal-config.local.mdc` for Claude Code). Change the path under the **Path** heading and restart any active IDE sessions to pick up the change.
 
 `rules/journal-config.local.mdc` is gitignored, so your personal path never ends up in the repo.

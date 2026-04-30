@@ -151,10 +151,12 @@ resolve_ide_selection() {
 }
 
 interactive_select() {
-  echo "=== Agent Config Install ==="
-  echo
-  echo "Select target IDE(s). Detected installations are pre-selected."
-  echo
+  {
+    echo "=== Agent Config Install ==="
+    echo
+    echo "Select target IDE(s). Detected installations are pre-selected."
+    echo
+  } >&2
   local i=1
   local nums=""
   local default_nums=""
@@ -167,20 +169,22 @@ interactive_select() {
     else
       detected_marker="[ ] ($(ide_home "$ide") not found)"
     fi
-    printf "  %d. %-12s %s\n" "$i" "$name" "$detected_marker"
+    printf "  %d. %-12s %s\n" "$i" "$name" "$detected_marker" >&2
     nums="$nums $i:$ide"
     i=$((i + 1))
   done
-  echo
-  echo "Press Enter to accept the pre-selected (detected) IDEs,"
-  echo "or type comma-separated numbers (e.g. '1,2'), 'all', or 'none'."
+  {
+    echo
+    echo "Press Enter to accept the pre-selected (detected) IDEs,"
+    echo "or type comma-separated numbers (e.g. '1,2'), 'all', or 'none'."
+  } >&2
   default_nums="$(echo "$default_nums" | tr ' ' ',' | sed 's/^,//;s/,$//')"
   if [ -z "$default_nums" ]; then
-    echo "(No IDEs detected — type at least one number, 'all', or 'none' to abort.)"
+    echo "(No IDEs detected — type at least one number, 'all', or 'none' to abort.)" >&2
   else
-    echo "Default: $default_nums"
+    echo "Default: $default_nums" >&2
   fi
-  printf "> "
+  printf "> " >&2
   local response=""
   read -r response || true
   response="$(echo "$response" | tr -d '[:space:]')"
@@ -193,12 +197,11 @@ interactive_select() {
     auto|AUTO) resolve_ide_selection "auto"; return ;;
   esac
   local out=""
-  local IFS=','
-  for token in $response; do
-    token="$(echo "$token" | tr -d '[:space:]')"
+  local tokens="${response//,/ }"
+  for token in $tokens; do
     [ -z "$token" ] && continue
     case "$token" in
-      ''|*[!0-9]*)
+      *[!0-9]*)
         echo "ERROR: invalid input '$token' (expected number)" >&2; return 1 ;;
     esac
     local match=""
